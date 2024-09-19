@@ -56,6 +56,20 @@ class BasicTokenizer:
         tokens = b"".join([vocab[i] for i in ids])
 
         return tokens.decode("utf-8", errors = "replace")
+    
+    
+    def encode(self, ids, merges):
 
+        ids = ids.encode("utf-8")
+
+        while len(ids) > 1:
+            counts = self.stats(ids)
+
+            pair = min(counts, key = lambda k: merges.get(k, float("inf")))
+
+            if pair not in merges:
+                break
+                
+            ids = self.merge(ids, pair, merges[pair])
         
-
+        return ids
