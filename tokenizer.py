@@ -51,4 +51,11 @@ class BasicTokenizer:
             
         return ids, merges
     
-    
+    def decode(self, ids, vocab):
+ 
+        tokens = b"".join([vocab[i] for i in ids])
+
+        return tokens.decode("utf-8", errors = "replace")
+
+        
+
